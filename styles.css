@@ -78,3 +78,14 @@ h1{
     border: none;
     outline: 1px solid #48e;
 }
+
+footer {
+    display: flex;
+    justify-content: center;
+    margin: 20px auto 10px;
+    color: #000;
+}
+
+footer a {
+    color: #004;
+}
