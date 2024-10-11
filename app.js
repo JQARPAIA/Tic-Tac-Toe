@@ -1,32 +1,61 @@
-const ticTacToe = document.querySelector(".container");
-const restartGame = document.querySelector(".btn");
-let playerX = true;
-let playerO  = false;
+const $ = (el) => document.querySelector(el);
 
-ticTacToe.addEventListener("click", (ev)=>{
-    if (ev.target.innerHTML == ""){
-        if (ev.target.classList.contains("box") && playerX == true){
-            ev.target.innerHTML = "X";
-            playerX = false;
-            playerO = true;
-        } else if (ev.target.classList.contains("box") && playerO == true){
-            ev.target.innerHTML = "O";
-            playerX = true;
-            playerO = false;
-        }
+const ticTacToe = $(".container");
+const restartBtn = $(".restart");
+const winnerBtn = $(".winner");
+
+let isPlayingX = true;
+let winner = null;
+
+const getCurrentBoard = () =>
+  Array.from({ length: 9 }, (_, index) => $(`.box-${index + 1}`).innerHTML);
+
+function checkWinner() {
+  const cells = getCurrentBoard();
+
+  if (
+    (cells[0] && cells[0] === cells[1] && cells[0] === cells[2]) ||
+    (cells[3] && cells[3] === cells[4] && cells[3] === cells[5]) ||
+    (cells[6] && cells[6] === cells[7] && cells[6] === cells[8]) ||
+    (cells[0] && cells[0] === cells[3] && cells[0] === cells[6]) ||
+    (cells[1] && cells[1] === cells[4] && cells[1] === cells[7]) ||
+    (cells[2] && cells[2] === cells[5] && cells[2] === cells[8]) ||
+    (cells[0] && cells[0] === cells[4] && cells[0] === cells[8]) ||
+    (cells[2] && cells[2] === cells[4] && cells[2] === cells[6])
+  ) {
+    winner = isPlayingX ? "X" : "O";
+  }
+}
+
+ticTacToe.addEventListener("click", (ev) => {
+  if (!!winner) return;
+  if (ev.target.innerHTML == "") {
+    if (ev.target.classList.contains("box") && isPlayingX) {
+      ev.target.innerHTML = "X";
+    } else if (ev.target.classList.contains("box") && !isPlayingX) {
+      ev.target.innerHTML = "O";
     }
-})
+  }
 
-restartGame.addEventListener("click", (ev)=>{
-    // convierte el elemento container en el array
-    let restart = ticTacToe.childNodes; 
-    for (let ind = 1; ind < restart.length; ind++){
-        // filtramos los elementos text intermedios a los elementos jugables
-        if (restart[ind].childNodes.length != 0){
-            // limpiamos los elementos jugables para iniciar una partida nueva
-            restart[ind].innerHTML = "";
-        }
-    }
-})
+  checkWinner();
 
-/* Faltan las validaciones de escenarios victorias o empate, puntajes, mejorar diseño */
+  if (!!winner) {
+    winnerBtn.innerHTML = `El jugador ${isPlayingX ? "X" : "O"} ha ganado!`;
+    winnerBtn.style.display = "block";
+  }
+
+  isPlayingX = !isPlayingX;
+});
+
+// esconde el botón de victoria y reiniciamos el juego
+restartBtn.addEventListener("click", () => {
+  winnerBtn.style.display = "none";
+  winner = null;
+  isPlayingX = true;
+
+  // limpiamos el tablero para iniciar una partida nueva
+  const boardArray = Array.from({ length: 9 }, (_, index) => index + 1);
+  boardArray.forEach((index) => {
+    $(`.box-${index}`).innerHTML = "";
+  });
+});
