@@ -26,6 +26,12 @@ h1 {
   text-shadow: 5px 0px 2px #48e;
 }
 
+.current-player {
+  margin-bottom: 20px;
+  font-size: 24px;
+  text-shadow: 5px 0px 2px #48e;
+}
+
 .btn {
   font-size: 15px;
   font-weight: bold;
