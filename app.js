@@ -8,11 +8,15 @@ const currentPlayer = $(".current-player");
 let isPlayingX = true;
 let winner = null;
 
-const initGame = () => {
-  currentPlayer.innerHTML = "Turno de " + (isPlayingX ? "X" : "O");
+const X_PLAYER_LABEL = "x";
+const O_PLAYER_LABEL = "o";
+
+function initGame() {
+  isPlayingX = true;
   winnerBtn.style.display = "none";
   winner = null;
-  isPlayingX = true;
+  currentPlayer.innerHTML =
+    (isPlayingX ? X_PLAYER_LABEL : O_PLAYER_LABEL) + " playing";
   restartBtn.style.outline = "none";
 
   // limpiamos el tablero para iniciar una partida nueva
@@ -20,10 +24,36 @@ const initGame = () => {
   boardArray.forEach((index) => {
     $(`.box-${index}`).innerHTML = "";
   });
-};
+}
 
-const getCurrentBoard = () =>
-  Array.from({ length: 9 }, (_, index) => $(`.box-${index + 1}`).innerHTML);
+function getCurrentBoard() {
+  return Array.from(
+    { length: 9 },
+    (_, index) => $(`.box-${index + 1}`).innerHTML
+  );
+}
+
+function handleClickOnCell(ev) {
+  if (!!winner) return;
+  const target = ev.target;
+  if (target.innerHTML != "") return;
+  if (target.classList.contains("box"))
+    target.innerHTML = isPlayingX ? X_PLAYER_LABEL : O_PLAYER_LABEL;
+
+  checkWinner();
+
+  if (!!winner) {
+    winnerBtn.innerHTML = `${
+      isPlayingX ? X_PLAYER_LABEL : O_PLAYER_LABEL
+    } won!`;
+    winnerBtn.style.display = "block";
+    currentPlayer.style.display = "none";
+  }
+
+  isPlayingX = !isPlayingX;
+  currentPlayer.innerHTML =
+    (isPlayingX ? X_PLAYER_LABEL : O_PLAYER_LABEL) + " playing";
+}
 
 function checkWinner() {
   const cells = getCurrentBoard();
@@ -43,29 +73,15 @@ function checkWinner() {
     (cells[0] && cells[0] === cells[4] && cells[0] === cells[8]) ||
     (cells[2] && cells[2] === cells[4] && cells[2] === cells[6])
   ) {
-    winner = isPlayingX ? "X" : "O";
+    winner = isPlayingX ? X_PLAYER_LABEL : O_PLAYER_LABEL;
     restartBtn.style.outline = "3px solid #48e";
   }
 }
 
-ticTacToe.addEventListener("click", (ev) => {
-  if (!!winner) return;
-  const target = ev.target;
-  if (target.innerHTML != "") return;
-  if (target.classList.contains("box"))
-    target.innerHTML = isPlayingX ? "X" : "O";
-
-  checkWinner();
-
-  if (!!winner) {
-    winnerBtn.innerHTML = `El jugador ${isPlayingX ? "X" : "O"} ha ganado!`;
-    winnerBtn.style.display = "block";
-  }
-
-  isPlayingX = !isPlayingX;
-  currentPlayer.innerHTML = "Turno de " + (isPlayingX ? "X" : "O");
-});
-
-// esconde el botón de victoria y reiniciamos el juego
+/* Click on the cells */
+ticTacToe.addEventListener("click", handleClickOnCell);
+/* Restart game */
 restartBtn.addEventListener("click", () => initGame());
-// initGame();
+
+/* init game */
+initGame();
