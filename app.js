@@ -15,9 +15,11 @@ function initGame() {
   isPlayingX = true;
   winnerBtn.style.display = "none";
   winner = null;
+  currentPlayer.style.display = "block";
   currentPlayer.innerHTML =
     (isPlayingX ? X_PLAYER_LABEL : O_PLAYER_LABEL) + " playing";
   restartBtn.style.outline = "none";
+  restartBtn.style.background = "#0a0";
 
   // limpiamos el tablero para iniciar una partida nueva
   const boardArray = Array.from({ length: 9 }, (_, index) => index + 1);
@@ -61,6 +63,8 @@ function checkWinner() {
   const noWinner = cells.every((cell) => !!cell);
   if (noWinner) {
     restartBtn.style.outline = "3px solid #48e";
+    restartBtn.style.background = "#48e";
+    return;
   }
 
   if (
@@ -75,6 +79,7 @@ function checkWinner() {
   ) {
     winner = isPlayingX ? X_PLAYER_LABEL : O_PLAYER_LABEL;
     restartBtn.style.outline = "3px solid #48e";
+    restartBtn.style.background = "#48e";
   }
 }
 
