@@ -23,13 +23,13 @@ body {
 h1 {
   margin-bottom: 40px;
   font-size: 40px;
-  text-shadow: 5px 0px 2px #48e;
+  text-shadow: 2px 0px 2px #48e;
 }
 
 .current-player {
   margin-bottom: 20px;
   font-size: 24px;
-  text-shadow: 5px 0px 2px #48e;
+  text-shadow: 2px 0px 2px #48e;
 }
 
 .btn {
@@ -72,7 +72,7 @@ h1 {
   width: 100px;
   max-height: 150px;
   max-width: 150px;
-  text-shadow: 5px 0px 2px #48e;
+  text-shadow: 2px 0px 2px #48e;
   transition: all 0.3s ease-out;
   font-size: 3em;
 }
@@ -81,7 +81,15 @@ h1 {
   display: none;
   margin-bottom: 20px;
   font-size: 24px;
-  text-shadow: 5px 0px 2px #48e;
+  text-shadow: 2px 0px 2px #48e;
+}
+
+.score {
+  margin-top: 20px;
+  font-size: 24px;
+  text-shadow: 2px 0px 2px #48e;
+  color: #000;
+  text-align: center;
 }
 
 footer {

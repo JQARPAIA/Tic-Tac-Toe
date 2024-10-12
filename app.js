@@ -1,15 +1,23 @@
 const $ = (el) => document.querySelector(el);
 
+/* Constants */
 const ticTacToe = $(".container");
 const restartBtn = $(".restart");
 const winnerBtn = $(".winner");
 const currentPlayer = $(".current-player");
-
-let isPlayingX = true;
-let winner = null;
-
+const score = $(".score");
 const X_PLAYER_LABEL = "x";
 const O_PLAYER_LABEL = "o";
+
+/* Variables */
+let isPlayingX = true;
+let winner = null;
+let xPlayerScore = 0;
+let oPlayerScore = 0;
+
+function updateScore() {
+  score.innerHTML = `${X_PLAYER_LABEL}: ${xPlayerScore} vs ${O_PLAYER_LABEL}: ${oPlayerScore}`;
+}
 
 function initGame() {
   isPlayingX = true;
@@ -78,8 +86,12 @@ function checkWinner() {
     (cells[2] && cells[2] === cells[4] && cells[2] === cells[6])
   ) {
     winner = isPlayingX ? X_PLAYER_LABEL : O_PLAYER_LABEL;
+    xPlayerScore = isPlayingX ? xPlayerScore + 1 : xPlayerScore;
+    oPlayerScore = isPlayingX ? oPlayerScore : oPlayerScore + 1;
+    updateScore();
     restartBtn.style.outline = "3px solid #48e";
     restartBtn.style.background = "#48e";
+    return;
   }
 }
 
