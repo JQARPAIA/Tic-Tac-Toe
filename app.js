@@ -6,8 +6,9 @@ const restartBtn = $(".restart");
 const winnerBtn = $(".winner");
 const currentPlayer = $(".current-player");
 const score = $(".score");
-const X_PLAYER_LABEL = "x";
-const O_PLAYER_LABEL = "o";
+const X_PLAYER_LABEL = "❌";
+const O_PLAYER_LABEL = "⭕️";
+const TAP_SOUND = new Audio("./assets/sounds/tap.mp3");
 
 /* Variables */
 let isPlayingX = true;
@@ -47,8 +48,10 @@ function handleClickOnCell(ev) {
   if (!!winner) return;
   const target = ev.target;
   if (target.innerHTML != "") return;
-  if (target.classList.contains("box"))
+  if (target.classList.contains("box")) {
     target.innerHTML = isPlayingX ? X_PLAYER_LABEL : O_PLAYER_LABEL;
+    TAP_SOUND.play();
+  }
 
   checkWinner();
 
