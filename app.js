@@ -28,7 +28,6 @@ function updateScore() {
 }
 
 function initGame() {
-  isPlayingX = true;
   winnerBtn.style.display = "none";
   winner = null;
   currentPlayer.style.display = "block";
@@ -68,6 +67,11 @@ function handleClickOnCell(ev) {
     } won!`;
     winnerBtn.style.display = "block";
     currentPlayer.style.display = "none";
+    /* if there a winner in the next game the winner will start playing first */
+    isPlayingX = isPlayingX;
+    currentPlayer.innerHTML =
+      (isPlayingX ? X_PLAYER_LABEL : O_PLAYER_LABEL) + " playing";
+    return;
   }
 
   isPlayingX = !isPlayingX;
@@ -117,3 +121,4 @@ restartBtn.addEventListener("click", initGame);
 
 /* init game */
 initGame();
+updateScore();
