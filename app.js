@@ -5,7 +5,7 @@ const ticTacToe = $(".container");
 const restartBtn = $(".restart");
 const winnerBtn = $(".winner");
 const currentPlayer = $(".current-player");
-const score = $(".score");
+const gameInfo = $(".game-info");
 const X_PLAYER_LABEL = "❌";
 const O_PLAYER_LABEL = "⭕️";
 const TAP_SOUND = new Audio("./assets/sounds/tap.mp3");
@@ -18,10 +18,12 @@ let oPlayerScore = 0;
 let ties = 0;
 
 function updateScore() {
-  score.innerHTML = `
-  ${xPlayerScore} ${X_PLAYER_LABEL}
-  ${oPlayerScore} ${O_PLAYER_LABEL}
-  ${ties} ties
+  gameInfo.innerHTML = `
+  <div class="score-container">
+    <p class="score">${X_PLAYER_LABEL} <span>${xPlayerScore}</span></p>
+    <p class="score">${O_PLAYER_LABEL} <span>${oPlayerScore}</span></p>
+  </div>
+  <p class="score ties">TIES: ${ties}</p>
   `;
 }
 
