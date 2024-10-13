@@ -15,9 +15,14 @@ let isPlayingX = true;
 let winner = null;
 let xPlayerScore = 0;
 let oPlayerScore = 0;
+let ties = 0;
 
 function updateScore() {
-  score.innerHTML = `${X_PLAYER_LABEL}: ${xPlayerScore} vs ${O_PLAYER_LABEL}: ${oPlayerScore}`;
+  score.innerHTML = `
+  ${xPlayerScore} ${X_PLAYER_LABEL}
+  ${oPlayerScore} ${O_PLAYER_LABEL}
+  ${ties} ties
+  `;
 }
 
 function initGame() {
@@ -71,13 +76,6 @@ function handleClickOnCell(ev) {
 function checkWinner() {
   const cells = getCurrentBoard();
 
-  const noWinner = cells.every((cell) => !!cell);
-  if (noWinner) {
-    restartBtn.style.outline = "3px solid #48e";
-    restartBtn.style.background = "#48e";
-    return;
-  }
-
   if (
     (cells[0] && cells[0] === cells[1] && cells[0] === cells[2]) ||
     (cells[3] && cells[3] === cells[4] && cells[3] === cells[5]) ||
@@ -96,12 +94,24 @@ function checkWinner() {
     restartBtn.style.background = "#48e";
     return;
   }
+
+  const noWinner = cells.every((cell) => !!cell);
+  if (noWinner) {
+    restartBtn.style.outline = "3px solid #48e";
+    restartBtn.style.background = "#48e";
+    ties += 1;
+    winnerBtn.innerHTML = `TIE`;
+    winnerBtn.style.display = "block";
+    currentPlayer.style.display = "none";
+    updateScore();
+    return;
+  }
 }
 
 /* Click on the cells */
 ticTacToe.addEventListener("click", handleClickOnCell);
 /* Restart game */
-restartBtn.addEventListener("click", () => initGame());
+restartBtn.addEventListener("click", initGame);
 
 /* init game */
 initGame();
